@@ -1,1 +1,1 @@
-export type AsyncGenericSubscriber<T> = (data?: T) => Promise<void>;
+export type AsyncGenericSubscriber<T> = (data?: T) => Promise<void> | void;

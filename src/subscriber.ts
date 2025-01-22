@@ -1,1 +1,1 @@
-export type Subscriber = (data?: any) => void;
+export type Subscriber = (data?: unknown | undefined) => void;

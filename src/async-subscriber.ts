@@ -1,1 +1,3 @@
-export type AsyncSubscriber = (data?: any) => Promise<void>;
+export type AsyncSubscriber = (
+  data?: unknown | undefined,
+) => Promise<void> | void;
