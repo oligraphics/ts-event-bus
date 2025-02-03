@@ -26,7 +26,7 @@ export class AsyncEventBus {
     }
   }
 
-  off(eventName: string, fn: AsyncSubscriber) {
+  off<T>(eventName: string, fn: AsyncGenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
       for (let i = 0; i < list.length; i++) {

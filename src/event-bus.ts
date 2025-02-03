@@ -26,7 +26,7 @@ export class EventBus {
     }
   }
 
-  off(eventName: string, fn: Subscriber) {
+  off<T>(eventName: string, fn: GenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
       for (let i = 0; i < list.length; i++) {
