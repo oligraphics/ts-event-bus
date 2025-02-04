@@ -68,7 +68,11 @@ class AsyncEventBus {
             console.log(this.name, list?.length ?? 0, eventName, 'listeners');
         }
         if (list) {
-            for (const subscriber of list) {
+            for (let i = 0; i < list.length; i++) {
+                if (this.debug === eventName) {
+                    console.log(this.name, 'Call', eventName, 'listener', i);
+                }
+                const subscriber = list[i];
                 try {
                     await subscriber(data);
                 }

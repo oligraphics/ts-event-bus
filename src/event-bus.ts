@@ -6,14 +6,25 @@ export class EventBus {
   private readonly events: Map<string, Subscriber[]> = new Map();
   private readonly globalEvents: GlobalSubscriber[] = [];
 
+  name = 'EventBus';
+  debug: string | boolean = false;
+
   onAny(fn: GlobalSubscriber) {
     this.globalEvents.push(fn);
+    if (this.debug === true) {
+      console.log(this.name, '+', 'global listener');
+      console.log(this.name, this.globalEvents.length, 'global listeners');
+    }
   }
 
   offAny(fn: GlobalSubscriber) {
     const index = this.globalEvents.indexOf(fn);
     if (index >= 0) {
       this.globalEvents.splice(index, 1);
+    }
+    if (this.debug === true) {
+      console.log(this.name, '-', 'global listener');
+      console.log(this.name, this.globalEvents.length, 'global listeners');
     }
   }
 
@@ -23,6 +34,10 @@ export class EventBus {
       list.push(fn);
     } else {
       this.events.set(eventName, [fn]);
+    }
+    if (this.debug === eventName) {
+      console.log(this.name, '+', eventName, 'listener');
+      console.log(this.name, list?.length ?? 1, eventName, 'listeners');
     }
   }
 
@@ -34,9 +49,17 @@ export class EventBus {
         list.splice(index, 1);
       }
     }
+    if (this.debug === eventName) {
+      console.log(this.name, '-', eventName, 'listener');
+      console.log(this.name, list?.length ?? 0, eventName, 'listeners');
+    }
   }
 
   trigger<T>(eventName: string, data?: T) {
+    if (this.debug === true) {
+      console.log(this.name, 'trigger', eventName);
+      console.log(this.name, this.globalEvents.length, 'global listeners');
+    }
     for (const subscriber of this.globalEvents) {
       try {
         subscriber(eventName, data);
@@ -45,14 +68,22 @@ export class EventBus {
       }
     }
     const list = this.events.get(eventName);
+    if (this.debug === eventName) {
+      console.log(this.name, 'trigger', eventName);
+      console.log(this.name, list?.length ?? 0, eventName, 'listeners');
+    }
     if (list) {
-      list.forEach(function (fn: GenericSubscriber<T>) {
+      for (let i = 0; i < list.length; i++) {
+        if (this.debug === eventName) {
+          console.log(this.name, 'Call', eventName, 'listener', i);
+        }
+        const subscriber = list[i];
         try {
-          fn(data as T);
+          subscriber(data as T);
         } catch (e) {
           console.error(e);
         }
-      });
+      }
     }
   }
 }
