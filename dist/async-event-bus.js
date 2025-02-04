@@ -8,7 +8,7 @@ class AsyncEventBus {
     debug = false;
     onAny(fn) {
         this.globalEvents.push(fn);
-        if (this.debug) {
+        if (this.debug === true) {
             console.log(this.name, '+', 'global listener');
             console.log(this.name, this.globalEvents.length, 'global listeners');
         }
@@ -18,7 +18,7 @@ class AsyncEventBus {
         if (index >= 0) {
             this.globalEvents.splice(index, 1);
         }
-        if (this.debug) {
+        if (this.debug === true) {
             console.log(this.name, '-', 'global listener');
             console.log(this.name, this.globalEvents.length, 'global listeners');
         }
@@ -31,7 +31,7 @@ class AsyncEventBus {
         else {
             this.events.set(eventName, [fn]);
         }
-        if (this.debug) {
+        if (this.debug === eventName) {
             console.log(this.name, '+', eventName, 'listener');
             console.log(this.name, list?.length ?? 1, eventName, 'listeners');
         }
@@ -44,13 +44,13 @@ class AsyncEventBus {
                 list.splice(index, 1);
             }
         }
-        if (this.debug) {
+        if (this.debug === eventName) {
             console.log(this.name, '-', eventName, 'listener');
             console.log(this.name, list?.length ?? 0, eventName, 'listeners');
         }
     }
     async trigger(eventName, data) {
-        if (this.debug) {
+        if (this.debug === true) {
             console.log(this.name, 'trigger', eventName);
             console.log(this.name, this.globalEvents.length, 'global listeners');
         }
@@ -63,7 +63,8 @@ class AsyncEventBus {
             }
         }
         const list = this.events.get(eventName);
-        if (this.debug) {
+        if (this.debug === eventName) {
+            console.log(this.name, 'trigger', eventName);
             console.log(this.name, list?.length ?? 0, eventName, 'listeners');
         }
         if (list) {
