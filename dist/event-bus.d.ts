@@ -3,6 +3,8 @@ import { GlobalSubscriber } from './global-subscriber';
 export declare class EventBus {
     private readonly events;
     private readonly globalEvents;
+    name: string;
+    debug: string | boolean;
     onAny(fn: GlobalSubscriber): void;
     offAny(fn: GlobalSubscriber): void;
     on<T>(eventName: string, fn: GenericSubscriber<T>): void;

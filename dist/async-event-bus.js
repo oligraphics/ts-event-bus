@@ -67,12 +67,13 @@ class AsyncEventBus {
             console.log(this.name, 'trigger', eventName);
             console.log(this.name, list?.length ?? 0, eventName, 'listeners');
         }
-        if (list) {
-            for (let i = 0; i < list.length; i++) {
+        if (list && list.length > 0) {
+            const listCopy = [...list];
+            for (let i = 0; i < listCopy.length; i++) {
                 if (this.debug === eventName) {
                     console.log(this.name, 'Call', eventName, 'listener', i);
                 }
-                const subscriber = list[i];
+                const subscriber = listCopy[i];
                 try {
                     await subscriber(data);
                 }
