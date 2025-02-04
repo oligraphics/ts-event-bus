@@ -1,6 +1,7 @@
 import { AsyncEventBus } from '../src';
 
 const bus = new AsyncEventBus();
+bus.debug = true;
 bus.on('test', async () => {
   return new Promise(resolve => {
     console.log('Hello World!');
