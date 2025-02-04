@@ -9,6 +9,7 @@
     ".": "./dist/index.js"
   },
   "scripts": {
+    "test": "tsx test",
     "lint": "eslint src/**/* --fix --ignore-pattern '!**/.gitignore'"
   },
   "repository": {

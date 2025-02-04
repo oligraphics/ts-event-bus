@@ -25,11 +25,9 @@ class EventBus {
     off(eventName, fn) {
         const list = this.events.get(eventName);
         if (list) {
-            for (let i = 0; i < list.length; i++) {
-                if (list[i] === fn) {
-                    list.splice(i, 1);
-                    break;
-                }
+            const index = list.indexOf(fn);
+            if (index >= 0) {
+                list.splice(index, 1);
             }
         }
     }

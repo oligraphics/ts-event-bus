@@ -20,20 +20,18 @@ export class AsyncEventBus {
   on<T>(eventName: string, fn: AsyncGenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
-      list.push(fn as AsyncSubscriber);
+      list.push(fn);
     } else {
-      this.events.set(eventName, [fn as AsyncSubscriber]);
+      this.events.set(eventName, [fn]);
     }
   }
 
   off<T>(eventName: string, fn: AsyncGenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
-      for (let i = 0; i < list.length; i++) {
-        if (list[i] === fn) {
-          list.splice(i, 1);
-          break;
-        }
+      const index = list.indexOf(fn);
+      if (index >= 0) {
+        list.splice(index, 1);
       }
     }
   }
@@ -50,7 +48,7 @@ export class AsyncEventBus {
     if (list) {
       for (const subscriber of list) {
         try {
-          await subscriber(data);
+          await subscriber(data as T);
         } catch (e) {
           console.error(e);
         }

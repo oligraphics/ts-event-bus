@@ -1,4 +1,4 @@
 export type GlobalSubscriber = (
   eventName: string,
-  data?: unknown | undefined,
+  data: unknown | undefined,
 ) => void;

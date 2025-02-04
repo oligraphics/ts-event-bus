@@ -20,20 +20,18 @@ export class EventBus {
   on<T>(eventName: string, fn: GenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
-      list.push(fn as Subscriber);
+      list.push(fn);
     } else {
-      this.events.set(eventName, [fn as Subscriber]);
+      this.events.set(eventName, [fn]);
     }
   }
 
   off<T>(eventName: string, fn: GenericSubscriber<T>) {
     const list = this.events.get(eventName);
     if (list) {
-      for (let i = 0; i < list.length; i++) {
-        if (list[i] === fn) {
-          list.splice(i, 1);
-          break;
-        }
+      const index = list.indexOf(fn);
+      if (index >= 0) {
+        list.splice(index, 1);
       }
     }
   }
@@ -50,7 +48,7 @@ export class EventBus {
     if (list) {
       list.forEach(function (fn: GenericSubscriber<T>) {
         try {
-          fn(data);
+          fn(data as T);
         } catch (e) {
           console.error(e);
         }

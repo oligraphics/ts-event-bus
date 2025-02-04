@@ -1,4 +1,4 @@
 export type AsyncGlobalSubscriber = (
   eventName: string,
-  data?: unknown | undefined,
+  data: unknown | undefined,
 ) => Promise<void> | void;

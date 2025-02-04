@@ -2,6 +2,14 @@
 
 Simple event bus class to set up event listeners.
 
+## Test Script
+
+```
+npm run test
+```
+
+## Example Usage
+
 ```ts
 // Create a bus
 const bus = new EventBus();
